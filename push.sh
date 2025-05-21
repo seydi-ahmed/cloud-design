@@ -3,6 +3,6 @@ git config --global user.name "mouhameddiouf"
 git config credential.helper store
 git add .
 git commit -m "
-les fichiers à remplir pour notre nouveau projet
+Ce qu'on a ajouté par rapport au projet précédent
 "
 git push --force
