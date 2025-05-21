@@ -3,6 +3,6 @@ git config --global user.name "mouhameddiouf"
 git config credential.helper store
 git add .
 git commit -m "
-Readme
+le plan à suivre pour ce projet
 "
 git push --force
