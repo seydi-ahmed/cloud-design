@@ -1,3 +1,5 @@
+# Dockerfile de api-gateway-app
+
 FROM python:3.12-alpine
 
 WORKDIR /usr/src/
