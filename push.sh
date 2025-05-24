@@ -3,6 +3,6 @@ git config --global user.name "mouhameddiouf"
 git config credential.helper store
 git add .
 git commit -m "
-Ce qu'on a ajouté par rapport au projet précédent
+prise en main de aws
 "
 git push --force
