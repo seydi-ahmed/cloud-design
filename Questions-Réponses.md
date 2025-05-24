@@ -31,3 +31,16 @@
     - map_public_ip_on_launch: donne des IP publiques à tes instances dans ces subnets.
     - route_table: configure une route vers Internet pour ces subnets.
     - les tags kubernetes.io sont requis pour qu’EKS les détecte comme subnets éligibles.
+
+## ✅ Fichier 5 : infrastructure/eks/cluster.tf
+- Ce fichier crée le cluster EKS lui-même.
+- C’est ici qu’on dit à AWS : “Je veux un cluster Kubernetes managé (EKS) dans le VPC qu’on vient de créer.”
+- 💬 Explication rapide:
+    - aws_eks_cluster: crée un cluster Kubernetes managé.
+    - name: nom du cluster (venant de la variable).
+    - role_arn: le rôle IAM utilisé par le control plane du cluster (sera défini dans iam-roles.tf).
+    - subnet_ids: les deux subnets publics créés dans vpc.tf (zones où les nodes seront déployés).
+    - endpoint_public_access: active l’accès public à l’API Kubernetes (nécessaire pour ton PC local ou CloudShell).
+    - depends_on: assure que la policy IAM est bien attachée avant la création du cluster.
+
+## 
