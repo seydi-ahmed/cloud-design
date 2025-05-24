@@ -78,3 +78,18 @@
             - Tout le trafic interne au VPC (important pour communication inter-services)
     - Egress (sortant):
         - Autorise tout (nécessaire pour que les pods puissent faire des requêtes sortantes : accès à DockerHub, API tierces, etc.)
+
+## ✅ Fichier 9 : infrastructure/terraform/outputs.tf
+- Ce fichier affiche des informations importantes après l'exécution de terraform apply, comme:
+    - le nom du cluster
+    - le nom du node group
+    - le rôle IAM utilisé
+    - les sous-réseaux
+    - etc.
+- Ces infos sont utiles pour vérifier que tout a bien été créé, ou pour connecter des outils externes (kubectl, monitoring, etc.).
+- 💬 Explication rapide
+    - Ces valeurs sont récupérées depuis le module eks.
+    - Elles servent pour:
+        - configurer kubectl (cluster endpoint + CA cert)
+        - associer des IAM roles (OIDC provider)
+        - vérifier l’état et la configuration de ton cluster
