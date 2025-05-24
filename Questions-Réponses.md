@@ -7,3 +7,8 @@
     - La région dans laquelle on déploie.
     - Le profil AWS CLI à utiliser (c’est ce que tu as configuré avec aws configure).
 - C’est le point de départ de toute infrastructure AWS avec Terraform.
+
+## ✅ Fichier 2 : variables.tf:
+- Ce fichier définit les variables qu'on peut personnaliser dans d'autres fichiers .tf.
+- Tu peux voir ça comme les “paramètres” de ton infrastructure.
+
