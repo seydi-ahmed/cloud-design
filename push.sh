@@ -3,6 +3,6 @@ git config --global user.name "mouhameddiouf"
 git config credential.helper store
 git add .
 git commit -m "
-prise en main de aws
+k3s de base
 "
 git push --force
