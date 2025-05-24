@@ -12,3 +12,6 @@
 - Ce fichier définit les variables qu'on peut personnaliser dans d'autres fichiers .tf.
 - Tu peux voir ça comme les “paramètres” de ton infrastructure.
 
+## ✅ Fichier 3 : main.tf
+- Ce fichier est le cœur du projet Terraform. Il fait “le lien” entre le code Terraform racine (terraform/) et tous les autres sous-modules (VPC, EKS, IAM, etc.).
+- Mais dans ce cas, nous avons tout centralisé dans un seul projet (pas de modules réutilisables externes ou internes), ce fichier va juste charger les autres .tf comme s'ils étaient un seul gros fichier.
