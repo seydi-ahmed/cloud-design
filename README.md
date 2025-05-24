@@ -17,9 +17,6 @@
 - Prometheus / Grafana configs (*-values.yaml)
 - Agent CloudWatch: cloudwatch-agent-config.json
 
-### 🐳 Dockerfiles – Dockerfiles/
-- Centralisation des fichiers de build pour chaque service
-
 ## Ordre de remplissage des fichiers (recommandé pour débutant AWS/Terraform)
 ### Étape 1 – Infrastructure AWS avec Terraform
 - ➡️ Objectif : Déployer EKS + VPC + IAM + NodeGroup
