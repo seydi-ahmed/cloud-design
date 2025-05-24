@@ -53,4 +53,16 @@
     - remote_access.ec2_ssh_key: permet d’accéder aux EC2 via SSH. (Il faut créer une Key Pair sur AWS EC2 et renseigner son nom dans variables.tf via ec2_key_pair).
     - depends_on: garantit que le cluster + rôles IAM sont prêts avant la création du node group.
 
-## 
+## ✅ Fichier 7 : infrastructure/iam/iam-roles.tf
+- Ce fichier définit les rôles IAM nécessaires pour qu'AWS autorise:
+    - EKS à gérer le cluster,
+    - Les EC2 (nœuds du cluster) à communiquer avec EKS et tirer les images Docker, etc.
+- Sans ces rôles, le cluster EKS ne pourra rien faire.
+- 💬 Explication rapide
+    - 🎯 eks_cluster_role
+        - Permet à EKS de créer/manager le cluster et ses composants.
+    - 🎯 eks_node_role
+        - Permet aux EC2 nodes d’accéder à:
+            - Kubernetes (via EKSWorkerNodePolicy)
+            - La gestion réseau CNI (via AmazonEKS_CNI_Policy)
+            - DockerHub ou ECR (via EC2ContainerRegistryReadOnly)
