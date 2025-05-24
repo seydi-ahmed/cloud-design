@@ -48,3 +48,108 @@
     - README.md (architecture, setup, diagrammes)
     - infrastructure/README.md (infra détaillée, modules)
     - monitoring/README.md (logs, alertes, dashboards)
+
+## Structure de notre projet:
+```
+.
+├── docker
+│   ├── api-gateway-app
+│   │   └── Dockerfile
+│   ├── billing-app
+│   │   └── Dockerfile
+│   ├── inventory-app
+│   │   └── Dockerfile
+│   ├── postgres-db
+│   │   └── Dockerfile
+│   └── rabbitmq
+│       └── Dockerfile
+├── docs
+├── infrastructure
+│   ├── eks
+│   │   ├── cluster.tf
+│   │   ├── eks-nodegroup.tf
+│   │   └── vpc.tf
+│   ├── iam
+│   │   └── iam-roles.tf
+│   ├── networking
+│   │   └── security-groups.tf
+│   ├── README.md
+│   └── terraform
+│       ├── main.tf
+│       ├── outputs.tf
+│       ├── provider.tf
+│       └── variables.tf
+├── kubernetes
+│   ├── kustomize
+│   │   └── kustomization.yaml
+│   └── manifests
+│       ├── api-gateway-app
+│       │   ├── deployment.yaml
+│       │   ├── hpa.yaml
+│       │   └── service.yaml
+│       ├── billing-app
+│       │   ├── service.yaml
+│       │   └── statefulset.yaml
+│       ├── configmaps
+│       │   └── app-config.yaml
+│       ├── databases
+│       │   ├── billing-db.yaml
+│       │   └── inventory-db.yaml
+│       ├── ingress
+│       │   └── ingress.yaml
+│       ├── inventory-app
+│       │   ├── deployment.yaml
+│       │   ├── hpa.yaml
+│       │   └── service.yaml
+│       ├── rabbitmq
+│       │   ├── deployment.yaml
+│       │   └── service.yaml
+│       └── secrets
+│           ├── billing-db-secret.yaml
+│           ├── inventory-db-secret.yaml
+│           └── rabbitmq-secret.yaml
+├── monitoring
+│   ├── cloudwatch
+│   │   └── cloudwatch-agent-config.json
+│   ├── grafana-dashboards
+│   ├── {prometheus.yaml}
+│   └── README.md
+├── Questions-Réponses.md
+├── README.md
+├── scripts
+│   ├── build-images.sh
+│   ├── deploy-all.sh
+│   └── push-images.sh
+└── srcs
+    ├── api-gateway-app
+    │   ├── app
+    │   │   ├── __init__.py
+    │   │   ├── proxy.py
+    │   │   └── queue_sender.py
+    │   ├── Dockerfile
+    │   ├── requirements.txt
+    │   └── server.py
+    ├── billing-app
+    │   ├── app
+    │   │   ├── consume_queue.py
+    │   │   └── orders.py
+    │   ├── Dockerfile
+    │   ├── requirements.txt
+    │   └── server.py
+    ├── inventory-app
+    │   ├── app
+    │   │   ├── extensions.py
+    │   │   ├── __init__.py
+    │   │   └── movies.py
+    │   ├── Dockerfile
+    │   ├── requirements.txt
+    │   └── server.py
+    ├── postgres-db
+    │   ├── Dockerfile
+    │   └── tools
+    │       └── setup_db.sh
+    └── rabbitmq
+        ├── Dockerfile
+        └── tools
+            └── setup_rq.sh
+```

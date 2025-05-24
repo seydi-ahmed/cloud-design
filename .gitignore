@@ -164,3 +164,67 @@ cython_debug/
 
 token
 k3s.yaml
+
+# Byte-compiled / optimized / DLL files (Python)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual environments
+venv/
+.env/
+.envrc
+.venv/
+env/
+
+# Python logs
+*.log
+
+# Docker
+docker/api-gateway-app/__pycache__/
+docker/billing-app/__pycache__/
+docker/inventory-app/__pycache__/
+docker/postgres-db/__pycache__/
+docker/rabbitmq/__pycache__/
+
+# Kubernetes config / temp files
+*.kubeconfig
+*.yaml~
+
+# Terraform
+.terraform/
+terraform.tfstate
+terraform.tfstate.*
+terraform.tfvars
+*.tfvars.json
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*~
+.project
+.metadata
+*.iml
+
+# Logs and databases
+*.log
+*.sqlite3
+
+# Scripts
+scripts/*.log
+
+# Others
+.DS_Store
+Thumbs.db
