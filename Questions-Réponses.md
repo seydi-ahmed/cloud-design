@@ -66,3 +66,15 @@
             - Kubernetes (via EKSWorkerNodePolicy)
             - La gestion réseau CNI (via AmazonEKS_CNI_Policy)
             - DockerHub ou ECR (via EC2ContainerRegistryReadOnly)
+
+## ✅ Fichier 8 : infrastructure/networking/security-groups.tf
+- Ce fichier définit un Security Group (SG) qui agit comme un pare-feu : il autorise ou bloque le trafic réseau entrant et sortant pour les ressources (comme les pods ou les services).
+- 💬 Explication rapide
+    - Ingress (entrant):
+        - Autorise:
+            - HTTP (port 80)
+            - HTTPS (port 443)
+            - SSH (port 22)
+            - Tout le trafic interne au VPC (important pour communication inter-services)
+    - Egress (sortant):
+        - Autorise tout (nécessaire pour que les pods puissent faire des requêtes sortantes : accès à DockerHub, API tierces, etc.)
