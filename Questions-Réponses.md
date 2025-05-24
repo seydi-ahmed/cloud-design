@@ -43,4 +43,14 @@
     - endpoint_public_access: active l’accès public à l’API Kubernetes (nécessaire pour ton PC local ou CloudShell).
     - depends_on: assure que la policy IAM est bien attachée avant la création du cluster.
 
+## ✅ Fichier 6 : infrastructure/eks/eks-nodegroup.tf
+- Ce fichier ajoute les “workers” à ton cluster EKS : ce sont les nœuds EC2 qui exécutent les pods.
+- On utilise ici les node groups managés par AWS (avec autoscaling intégré).
+- 💬 Explication rapide:
+    - aws_eks_node_group: groupe d’EC2 managés par AWS.
+    - scaling_config: permet d’ajuster automatiquement le nombre de nœuds entre 1 et 3.
+    - instance_types: type d’EC2 utilisé. Ici : t3.medium, un bon point de départ.
+    - remote_access.ec2_ssh_key: permet d’accéder aux EC2 via SSH. (Il faut créer une Key Pair sur AWS EC2 et renseigner son nom dans variables.tf via ec2_key_pair).
+    - depends_on: garantit que le cluster + rôles IAM sont prêts avant la création du node group.
+
 ## 
