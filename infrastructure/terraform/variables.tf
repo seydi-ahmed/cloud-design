@@ -39,3 +39,19 @@ variable "max_size" {
   type        = number
   default     = 5
 }
+
+variable "cluster_version" {
+  description = "Version de Kubernetes pour le cluster EKS"
+  type        = string
+  default     = "1.29"
+}
+
+variable "region" {
+  description = "Région AWS"
+  type        = string
+}
+
+variable "ec2_key_pair" {
+  description = "Name of the EC2 key pair to enable SSH access to EKS nodes"
+  type        = string
+}

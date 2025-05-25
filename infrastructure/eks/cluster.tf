@@ -1,6 +1,7 @@
 resource "aws_eks_cluster" "main" {
   name     = var.cluster_name
-  role_arn = aws_iam_role.eks_cluster_role.arn
+  role_arn = var.eks_cluster_role_arn
+  version  = var.cluster_version
 
   vpc_config {
     subnet_ids = [
@@ -14,7 +15,7 @@ resource "aws_eks_cluster" "main" {
     service_ipv4_cidr = "172.20.0.0/16"
   }
 
-  depends_on = [aws_iam_role_policy_attachment.eks_cluster_AmazonEKSClusterPolicy]
+  depends_on = [var.eks_policy_attachment_id]
 
   tags = {
     Name = var.cluster_name
