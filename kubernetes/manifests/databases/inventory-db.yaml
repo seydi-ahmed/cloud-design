@@ -1,4 +1,4 @@
-# ./manifests/databases/inventory-db.yaml
+# ./kubernetes/manifests/databases/inventory-db.yaml
 
 apiVersion: apps/v1
 kind: StatefulSet
@@ -15,8 +15,8 @@ spec:
       labels:
         app: inventory-db
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: master
+      # nodeSelector:
+      #   kubernetes.io/hostname: master
       containers:
         - name: inventory-db
           image: mouhameddiouf01/postgres-db:latest
@@ -49,7 +49,7 @@ spec:
         name: inventory-db-storage
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: local-path
+        storageClassName: gp2
         resources:
           requests:
             storage: 1Gi

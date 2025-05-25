@@ -1,4 +1,4 @@
-# ./manifests/databases/billing-db.yaml
+# ./kubernetes/manifests/databases/billing-db.yaml
 
 apiVersion: apps/v1
 kind: StatefulSet
@@ -15,20 +15,20 @@ spec:
       labels:
         app: billing-db
     spec:
-      affinity:
-        nodeAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 1
-              preference:
-                matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: In
-                    values:
-                      - master
-      tolerations:
-        - key: node-role.kubernetes.io/master
-          operator: Exists
-          effect: NoSchedule
+      # affinity:
+      #   nodeAffinity:
+      #     preferredDuringSchedulingIgnoredDuringExecution:
+      #       - weight: 1
+      #         preference:
+      #           matchExpressions:
+      #             - key: kubernetes.io/hostname
+      #               operator: In
+      #               values:
+      #                 - master
+      # tolerations:
+      #   - key: node-role.kubernetes.io/master
+      #     operator: Exists
+      #     effect: NoSchedule
       containers:
         - name: billing-db
           image: mouhameddiouf01/postgres-db:latest
@@ -58,7 +58,7 @@ spec:
         name: billing-db-storage
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: local-path
+        storageClassName: gp2
         resources:
           requests:
             storage: 1Gi
