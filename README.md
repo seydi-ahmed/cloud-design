@@ -213,13 +213,3 @@ kubectl delete deployment,statefulset,hpa,service,pod,pvc --all
 ## Déployer le CSI driver AWS EBS
 kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.22"
 
-
-
-
-https://www.linkedin.com/posts/mouhamed-diouf-435207174_kubernetes-devops-terraform-activity-7331296307464069120-PFEC?utm_source=share&utm_medium=member_desktop&rcm=ACoAAClSSakBSJFQ2a__4l625D7_grie6alzpC0
-
-→ Déploiement AWS avec Terraform :
- ▶ Module EKS en cours de développement
- ▶ Intégration CI/CD avec ArgoCD
- ▶ Monitoring via Prometheus/Grafana
-(Je poste des updates quotidiennes sur le repo!)

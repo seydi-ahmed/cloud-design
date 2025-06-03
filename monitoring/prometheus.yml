@@ -1,7 +1,9 @@
 global:
-  scrape_interval: 5s
+  scrape_interval: 15s
+  evaluation_interval: 15s
 
 scrape_configs:
-  - job_name: 'docker-containers'
+  - job_name: 'api-gateway'
+    metrics_path: /metrics
     static_configs:
-      - targets: ['inventory-app:8080', 'billing-app:5000', 'api-gateway:3000']
+      - targets: ['api-gateway:3000']
