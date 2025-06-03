@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: 'docker-containers'
+    static_configs:
+      - targets: ['inventory-app:8080', 'billing-app:5000', 'api-gateway:3000']

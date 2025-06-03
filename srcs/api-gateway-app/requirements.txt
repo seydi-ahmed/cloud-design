@@ -12,3 +12,4 @@ requests==2.32.0
 urllib3==2.2.2
 waitress==2.1.2
 Werkzeug==3.0.3
+prometheus_flask_exporter
