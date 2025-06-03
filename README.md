@@ -171,6 +171,7 @@ terraform apply -auto-approve
 ```
 
 ## Déploiement
+- Un en un
 ```
 kubectl apply -f kubernetes/manifests/api-gateway-app/
 kubectl apply -f kubernetes/manifests/billing-app/
@@ -181,6 +182,8 @@ kubectl apply -f kubernetes/manifests/secrets/
 kubectl apply -f kubernetes/manifests/configmaps/
 kubectl apply -f kubernetes/manifests/ingress/
 ```
+- Tous à la fois
+    - bash scripts/./deploy-all.sh
 
 ## Commandes utiles:
 - cd infrastructure/terraform
