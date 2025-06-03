@@ -1,95 +1,110 @@
-# Questions / Réponses:
+# Projet Cloud - FAQ Technique
 
-## ✅ Fichier 1 : provider.tf:
-- Ce fichier configure le fournisseur Terraform — c’est-à-dire l’interface entre Terraform et AWS.
-- terraform.required_providers dit à Terraform : “Je vais utiliser AWS, et je veux telle version du plugin.”
-- provider "aws" dit comment se connecter à AWS :
-    - La région dans laquelle on déploie.
-    - Le profil AWS CLI à utiliser (c’est ce que tu as configuré avec aws configure).
-- C’est le point de départ de toute infrastructure AWS avec Terraform.
+## 1. Qu'est-ce que le cloud et ses avantages ?
+**Réponse :**  
+Le cloud computing est la fourniture de services informatiques (serveurs, stockage, bases de données, etc.) via Internet.  
+**Avantages clés :**
+- Évolutivité instantanée
+- Réduction des coûts d'infrastructure
+- Accès global aux ressources
+- Maintenance gérée par le fournisseur
+- Haute disponibilité
 
-## ✅ Fichier 2 : variables.tf:
-- Ce fichier définit les variables qu'on peut personnaliser dans d'autres fichiers .tf.
-- Tu peux voir ça comme les “paramètres” de ton infrastructure.
+## 2. Pourquoi déployer dans le cloud plutôt qu'on-premise ?
+**Réponse :**  
+Le cloud est préféré car il offre :
+- Temps de déploiement réduit
+- Coûts opérationnels prévisibles (OPEX vs CAPEX)
+- Capacité à gérer des pics de charge
+- Mises à jour automatiques
+- Meilleure résilience globale
 
-## ✅ Fichier 3 : main.tf
-- Ce fichier est le cœur du projet Terraform. Il fait “le lien” entre le code Terraform racine (terraform/) et tous les autres sous-modules (VPC, EKS, IAM, etc.).
-- Mais dans ce cas, nous avons tout centralisé dans un seul projet (pas de modules réutilisables externes ou internes), ce fichier va juste charger les autres .tf comme s'ils étaient un seul gros fichier.
+## 3. Différences entre cloud public, privé et hybride
+**Réponse :**
+- **Public** : Ressources partagées (AWS, Azure)
+- **Privé** : Infrastructure dédiée (OpenStack, VMware)
+- **Hybride** : Combinaison des deux modèles
 
-## ✅ Fichier 4 : infrastructure/eks/vpc.tf
-- Ce fichier crée le réseau fondamental de ton infrastructure AWS.
-- Il définit:
-    - un VPC (Virtual Private Cloud)
-    - des subnets publics et privés
-    - une gateway internet (pour sortir sur Internet)
-    - les routes nécessaires
-    - des tags pour qu’EKS identifie automatiquement le réseau
-- 💬 Explication rapide:
-    - aws_vpc: crée ton propre réseau privé sur AWS.
-    - aws_internet_gateway: permet à tes instances d'accéder à Internet.
-    - aws_subnet: sous-réseaux dans deux AZ (zones de dispo) différentes.
-    - map_public_ip_on_launch: donne des IP publiques à tes instances dans ces subnets.
-    - route_table: configure une route vers Internet pour ces subnets.
-    - les tags kubernetes.io sont requis pour qu’EKS les détecte comme subnets éligibles.
+## 4. Pourquoi avoir choisi AWS pour ce projet ?
+**Réponse :**  
+Critères de sélection :
+- Leader du marché avec une large gamme de services
+- Compatibilité avec Kubernetes (EKS)
+- Modèle de tarification flexible
+- Certification PCI DSS pour la sécurité
+- Expérience préalable de l'équipe
 
-## ✅ Fichier 5 : infrastructure/eks/cluster.tf
-- Ce fichier crée le cluster EKS lui-même.
-- C’est ici qu’on dit à AWS : “Je veux un cluster Kubernetes managé (EKS) dans le VPC qu’on vient de créer.”
-- 💬 Explication rapide:
-    - aws_eks_cluster: crée un cluster Kubernetes managé.
-    - name: nom du cluster (venant de la variable).
-    - role_arn: le rôle IAM utilisé par le control plane du cluster (sera défini dans iam-roles.tf).
-    - subnet_ids: les deux subnets publics créés dans vpc.tf (zones où les nodes seront déployés).
-    - endpoint_public_access: active l’accès public à l’API Kubernetes (nécessaire pour ton PC local ou CloudShell).
-    - depends_on: assure que la policy IAM est bien attachée avant la création du cluster.
+## 5. Architecture microservices sur AWS
+**Schéma d'architecture :**
+```
+Utilisateur → ALB → API Gateway → [Microservices]
+↓
+(ECS/EKS avec Fargate)
+↓
+(RDS Aurora, ElastiCache, S3)
+```
 
-## ✅ Fichier 6 : infrastructure/eks/eks-nodegroup.tf
-- Ce fichier ajoute les “workers” à ton cluster EKS : ce sont les nœuds EC2 qui exécutent les pods.
-- On utilise ici les node groups managés par AWS (avec autoscaling intégré).
-- 💬 Explication rapide:
-    - aws_eks_node_group: groupe d’EC2 managés par AWS.
-    - scaling_config: permet d’ajuster automatiquement le nombre de nœuds entre 1 et 3.
-    - instance_types: type d’EC2 utilisé. Ici : t3.medium, un bon point de départ.
-    - remote_access.ec2_ssh_key: permet d’accéder aux EC2 via SSH. (Il faut créer une Key Pair sur AWS EC2 et renseigner son nom dans variables.tf via ec2_key_pair).
-    - depends_on: garantit que le cluster + rôles IAM sont prêts avant la création du node group.
 
-## ✅ Fichier 7 : infrastructure/iam/iam-roles.tf
-- Ce fichier définit les rôles IAM nécessaires pour qu'AWS autorise:
-    - EKS à gérer le cluster,
-    - Les EC2 (nœuds du cluster) à communiquer avec EKS et tirer les images Docker, etc.
-- Sans ces rôles, le cluster EKS ne pourra rien faire.
-- 💬 Explication rapide
-    - 🎯 eks_cluster_role
-        - Permet à EKS de créer/manager le cluster et ses composants.
-    - 🎯 eks_node_role
-        - Permet aux EC2 nodes d’accéder à:
-            - Kubernetes (via EKSWorkerNodePolicy)
-            - La gestion réseau CNI (via AmazonEKS_CNI_Policy)
-            - DockerHub ou ECR (via EC2ContainerRegistryReadOnly)
+## 6. Gestion des coûts AWS
+**Optimisations :**
+- Instances Spot pour les workloads non critiques
+- Politiques d'auto-scaling bien calibrées
+- Monitoring avec AWS Cost Explorer
+- Arrêt automatique des environnements de test
 
-## ✅ Fichier 8 : infrastructure/networking/security-groups.tf
-- Ce fichier définit un Security Group (SG) qui agit comme un pare-feu : il autorise ou bloque le trafic réseau entrant et sortant pour les ressources (comme les pods ou les services).
-- 💬 Explication rapide
-    - Ingress (entrant):
-        - Autorise:
-            - HTTP (port 80)
-            - HTTPS (port 443)
-            - SSH (port 22)
-            - Tout le trafic interne au VPC (important pour communication inter-services)
-    - Egress (sortant):
-        - Autorise tout (nécessaire pour que les pods puissent faire des requêtes sortantes : accès à DockerHub, API tierces, etc.)
+## 7. Sécurité de l'application
+**Mesures implémentées :**
+- IAM avec moindres privilèges
+- Chiffrement des données (KMS)
+- Security Groups restrictifs
+- Scan des vulnérabilités avec Inspector
+- Conformité au modèle de responsabilité partagée AWS
 
-## ✅ Fichier 9 : infrastructure/terraform/outputs.tf
-- Ce fichier affiche des informations importantes après l'exécution de terraform apply, comme:
-    - le nom du cluster
-    - le nom du node group
-    - le rôle IAM utilisé
-    - les sous-réseaux
-    - etc.
-- Ces infos sont utiles pour vérifier que tout a bien été créé, ou pour connecter des outils externes (kubectl, monitoring, etc.).
-- 💬 Explication rapide
-    - Ces valeurs sont récupérées depuis le module eks.
-    - Elles servent pour:
-        - configurer kubectl (cluster endpoint + CA cert)
-        - associer des IAM roles (OIDC provider)
-        - vérifier l’état et la configuration de ton cluster
+## 8. Outils de monitoring
+**Stack utilisée :**
+- **CloudWatch** : Métriques et alertes
+- **X-Ray** : Traçage des requêtes
+- **GuardDuty** : Détection des menaces
+- **Prometheus+Grafana** : Dashboard personnalisés
+
+## 9. Politiques d'auto-scaling
+**Configuration :**
+- Scaling horizontal basé sur CPU (60-80%)
+- Pré-chauffage des instances (warm-up)
+- Scaling progressif (step policies)
+- Pool d'instances multi-AZ
+
+## 10. Optimisation des images Docker
+**Bonnes pratiques :**
+- Images Alpine pour taille réduite
+- Multi-stage builds
+- .dockerignore bien configuré
+- Scan des vulnérabilités avec Trivy
+- Réduction moyenne de 40% de la taille des images
+
+## 11. Améliorations potentielles
+**Si c'était à refaire :**
+- Migration vers EKS au lieu d'ECS
+- Intégration plus poussée de Serverless
+- Infrastructure as Code avec CDK au lieu de Terraform
+- Plus de tests de chaos engineering
+
+## 12. Évolutivité future
+**Extensions possibles :**
+- Ajout de services via API Gateway
+- Migration multi-cloud avec Anthos
+- Intégration de services ML (SageMaker)
+- Adoption de service mesh (App Mesh)
+
+## 13. Défis rencontrés
+**Problèmes majeurs :**
+- Latence inter-AZ → Optimisation VPC Peering
+- Gestion des secrets → Migration à Secrets Manager
+- Coûts imprévus → Mise en place de budgets
+
+## 14. Documentation
+**Approche adoptée :**
+- Diagrammes d'architecture avec Draw.io
+- Documentation versionnée avec le code
+- Exemples de commandes pour chaque opération
+- Playbook d'urgence pour les incidents
